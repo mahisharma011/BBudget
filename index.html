@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BudgetBuddy - a personal expense tracker for students.">
+    <title>BudgetBuddy - Student Ledger</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <div class="brand">
+                <p class="eyebrow">Personal ledger</p>
+                <h1>Budget<br>Buddy<span>.</span></h1>
+                <p class="brand-caption">A little more mindful, every month.</p>
+            </div>
+
+            <nav aria-label="Page sections">
+                <a class="active" href="#overview">Overview</a>
+                <a href="#entries">Transactions</a>
+                <a href="#planner">Add entry</a>
+                <a href="#breakdown">Spending notes</a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <p class="eyebrow">Viewing period</p>
+                <p class="term" id="termLabel">November 2026</p>
+                <p class="sidebar-small">Your finances, in one place.</p>
+            </div>
+
+        </aside>
+
+
+        <!-- Main content -->
+        <main>
+
+            <!-- Top section -->
+            <section class="topbar" id="overview">
+
+                <div>
+                    <p class="eyebrow">Student account</p>
+                    <h2 id="greeting">Money notes</h2>
+                    <p class="subheading">A clear picture of your everyday spending.</p>
+                </div>
+
+                <div class="topbar-right">
+                    <label for="monthPicker">Select month</label>
+                    <input type="month" id="monthPicker">
+                    <p class="today" id="today"></p>
+                </div>
+
+            </section>
+
+
+            <!-- Financial summary -->
+            <section class="balance-strip" aria-label="Monthly account summary">
+
+                <article class="balance-main">
+                    <p>Net balance this month</p>
+                    <h3 id="balance">₹0</h3>
+                    <div class="balance-caption" id="balanceCaption">
+                        Income minus expenses
+                    </div>
+                </article>
+
+                <article>
+                    <p>Money received</p>
+                    <h3 id="income">₹0</h3>
+                </article>
+
+                <article>
+                    <p>Money spent</p>
+                    <h3 id="expense">₹0</h3>
+                </article>
+
+            </section>
+
+
+            <!-- Workspace -->
+            <div class="workspace">
+
+                <!-- Transactions -->
+                <section class="ledger" id="entries">
+
+                    <div class="section-head">
+                        <div>
+                            <p class="eyebrow">Your money trail</p>
+                            <h2>Transaction history</h2>
+                            <p class="section-description" id="monthHeading">
+                                All your entries for this month.
+                            </p>
+                        </div>
+
+                        <button type="button" class="export-btn"
+                            id="exportCsv">
+                            Export CSV
+                        </button>
+                    </div>
+
+
+                    <!-- Search and filters -->
+                    <div class="filters">
+
+                        <input
+                            type="search"
+                            id="searchInput"
+                            placeholder="Search transactions..."
+                            aria-label="Search transactions"
+                        >
+
+                        <select id="filterType" aria-label="Filter by type">
+                            <option value="all">All types</option>
+                            <option value="expense">Expenses</option>
+                            <option value="income">Income</option>
+                        </select>
+
+                        <select id="filterCategory" aria-label="Filter by category">
+                            <option value="all">All categories</option>
+                            <option>Food</option>
+                            <option>Travel</option>
+                            <option>Study</option>
+                            <option>Shopping</option>
+                            <option>Fun</option>
+                            <option>Home</option>
+                            <option>Other</option>
+                        </select>
+
+                        <select id="sortEntries" aria-label="Sort transactions">
+                            <option value="newest">Newest first</option>
+                            <option value="oldest">Oldest first</option>
+                            <option value="highest">Highest amount</option>
+                            <option value="lowest">Lowest amount</option>
+                        </select>
+
+                    </div>
+
+
+                    <!-- Entry list -->
+                    <div class="entry-heading">
+                        <span>DETAILS</span>
+                        <span>AMOUNT / ACTIONS</span>
+                    </div>
+
+                    <div class="entry-list" id="entryList" aria-live="polite">
+                        <p class="empty">
+                            A clean page. Add your first entry.
+                        </p>
+                    </div>
+
+                    <div class="list-footer">
+                        <p id="entryCount">0 transactions</p>
+                        <p>Amounts shown in INR</p>
+                    </div>
+
+                </section>
+
+
+                <!-- Right side tools -->
+                <aside class="tools">
+
+                    <!-- Add transaction form -->
+                    <section class="form-panel" id="planner">
+
+                        <div class="section-head small">
+                            <div>
+                                <p class="eyebrow" id="formEyebrow">New note</p>
+                                <h2 id="formHeading">Add entry</h2>
+                            </div>
+                        </div>
+
+                        <form id="entryForm">
+
+                            <label for="title">What was it?</label>
+                            <input
+                                type="text"
+                                id="title"
+                                placeholder="e.g. Metro pass"
+                                maxlength="60"
+                                required
+                            >
+
+                            <div class="field-row">
+
+                                <div>
+                                    <label for="amount">Amount (₹)</label>
+                                    <input
+                                        type="number"
+                                        id="amount"
+                                        min="0.01"
+                                        step="0.01"
+                                        placeholder="0.00"
+                                        required
+                                    >
+                                </div>
+
+                                <div>
+                                    <label for="type">Kind</label>
+                                    <select id="type">
+                                        <option value="expense">Expense</option>
+                                        <option value="income">Income</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <label for="category">Category</label>
+                            <select id="category">
+                                <option>Food</option>
+                                <option>Travel</option>
+                                <option>Study</option>
+                                <option>Shopping</option>
+                                <option>Fun</option>
+                                <option>Home</option>
+                                <option>Other</option>
+                            </select>
+
+                            <label for="date">Date</label>
+                            <input type="date" id="date" required>
+
+                            <button type="submit" class="submit-btn" id="submitEntry">
+                                Record entry
+                            </button>
+
+                            <button
+                                type="button"
+                                class="cancel-btn"
+                                id="cancelEdit"
+                                hidden
+                            >
+                                Cancel editing
+                            </button>
+
+                        </form>
+
+                    </section>
+
+
+                    <!-- Monthly budget -->
+                    <section class="budget-panel">
+
+                        <p class="eyebrow">Monthly spending plan</p>
+                        <h2 id="budgetStatus">Set a monthly budget</h2>
+
+                        <div class="budget-line">
+
+                            <input
+                                type="number"
+                                id="budget"
+                                min="1"
+                                step="1"
+                                placeholder="Monthly limit (₹)"
+                                aria-label="Monthly budget"
+                            >
+
+                            <button type="button" id="saveBudget">Save</button>
+
+                        </div>
+
+                        <button type="button" id="clearBudget" class="clear-budget">
+                            Remove budget
+                        </button>
+
+                        <div class="budget-track">
+                            <span id="budgetProgress"></span>
+                        </div>
+
+                        <p class="budget-note" id="budgetNote">
+                            Set a limit to keep an eye on monthly spending.
+                        </p>
+
+                    </section>
+
+
+                    <!-- Category breakdown -->
+                    <section class="breakdown-panel" id="breakdown">
+
+                        <p class="eyebrow">Where it goes</p>
+                        <h2>Spending by category</h2>
+
+                        <div id="categoryBreakdown">
+                            <p class="empty-category">
+                                Your spending categories will appear here.
+                            </p>
+                        </div>
+
+                    </section>
+
+                </aside>
+
+            </div>
+
+
+            <!-- Footer -->
+            <footer>
+                <p>BudgetBuddy-A simple way to keep track</p>
+            </footer>
+
+        </main>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
